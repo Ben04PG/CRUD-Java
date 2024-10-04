@@ -1,6 +1,7 @@
 <%@ page language="java" contentType="text/html; charset=ISO-8859-1"
 	pageEncoding="ISO-8859-1"%>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt"%>
 <!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
 <html>
 <head>
@@ -18,6 +19,7 @@
 			<td>Fecha Creacion</td>
 			<td>Fecha Actualizacion</td>
 			<td>Accion</td>
+			<td>Accion</td>
 		</tr>
 		<c:forEach var="producto" items="${lista}">
 			<tr>
@@ -28,11 +30,16 @@
 				<td><c:out value="${ producto.nombre}"></c:out></td>
 				<td><c:out value="${ producto.cantidad}"></c:out></td>
 				<td><c:out value="${ producto.precio}"></c:out></td>
-				<td><c:out value="${ producto.fechaCrear}"></c:out></td>
-				<td><c:out value="${ producto.fechaActualizar}"></c:out></td>
+				<td><fmt:formatDate value="${producto.fechaCrear}"
+						pattern="EEEE, d 'de' MMMM 'de' yyyy, h:mm:ss a" /></td>
+				<td><fmt:formatDate value="${producto.fechaActualizar}"
+						pattern="EEEE, d 'de' MMMM 'de' yyyy, h:mm:ss a" /></td>
 				<td><a
 					href="productos?opcion=eliminar&id=<c:out value="${ producto.id}"></c:out>">
 						Eliminar </a></td>
+				<td><a
+					href="productos?opcion=meditar&id=<c:out value="${ producto.id}"></c:out>">
+						Editar </a></td>
 			</tr>
 		</c:forEach>
 	</table>

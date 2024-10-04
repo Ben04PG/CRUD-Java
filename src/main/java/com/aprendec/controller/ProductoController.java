@@ -58,7 +58,6 @@ public class ProductoController extends HttpServlet {
 				request.setAttribute("lista", lista);
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/listar.jsp");
 				requestDispatcher.forward(request, response);
-
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
@@ -115,7 +114,7 @@ public class ProductoController extends HttpServlet {
 			producto.setNombre(request.getParameter("nombre"));
 			producto.setCantidad(Double.parseDouble(request.getParameter("cantidad")));
 			producto.setPrecio(Double.parseDouble(request.getParameter("precio")));
-			producto.setFechaCrear(new java.sql.Date(fechaActual.getTime()));
+			producto.setFechaCrear(new java.sql.Timestamp(fechaActual.getTime()));
 			try {
 				productoDAO.guardar(producto);
 				System.out.println("Registro guardado satisfactoriamente...");
@@ -134,7 +133,7 @@ public class ProductoController extends HttpServlet {
 			producto.setNombre(request.getParameter("nombre"));
 			producto.setCantidad(Double.parseDouble(request.getParameter("cantidad")));
 			producto.setPrecio(Double.parseDouble(request.getParameter("precio")));
-			producto.setFechaActualizar(new java.sql.Date(fechaActual.getTime()));
+			producto.setFechaActualizar(new java.sql.Timestamp(fechaActual.getTime()));
 			try {
 				productoDAO.editar(producto);
 				System.out.println("Registro editado satisfactoriamente...");

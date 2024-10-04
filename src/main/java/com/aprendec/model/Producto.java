@@ -1,6 +1,6 @@
 package com.aprendec.model;
 
-import java.sql.Date;
+import java.sql.Timestamp;
 
 public class Producto {
 
@@ -8,10 +8,10 @@ public class Producto {
 	private String nombre;
 	private double cantidad;
 	private double precio;
-	private Date fechaCrear;
-	private Date fechaActualizar;
+	private Timestamp fechaCrear;
+	private Timestamp fechaActualizar;
 
-	public Producto(int id, String nombre, double cantidad, double precio, Date fechaCrear, Date fechaActualizar) {
+	public Producto(int id, String nombre, double cantidad, double precio, Timestamp fechaCrear, Timestamp fechaActualizar) {
 		super();
 		this.id = id;
 		this.nombre = nombre;
@@ -57,19 +57,19 @@ public class Producto {
 		this.precio = precio;
 	}
 
-	public Date getFechaCrear() {
+	public Timestamp getFechaCrear() {
 		return fechaCrear;
 	}
 
-	public void setFechaCrear(Date fechaCrear) {
+	public void setFechaCrear(Timestamp fechaCrear) {
 		this.fechaCrear = fechaCrear;
 	}
 
-	public Date getFechaActualizar() {
+	public Timestamp getFechaActualizar() {
 		return fechaActualizar;
 	}
 
-	public void setFechaActualizar(Date fechaActualizar) {
+	public void setFechaActualizar(Timestamp fechaActualizar) {
 		this.fechaActualizar = fechaActualizar;
 	}
 

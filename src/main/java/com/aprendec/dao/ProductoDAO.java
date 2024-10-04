@@ -30,8 +30,8 @@ public class ProductoDAO {
 			statement.setString(2, producto.getNombre());
 			statement.setDouble(3, producto.getCantidad());
 			statement.setDouble(4, producto.getPrecio());
-			statement.setDate(5, producto.getFechaCrear());
-			statement.setDate(6, producto.getFechaActualizar());
+			statement.setTimestamp(5, producto.getFechaCrear());
+			statement.setTimestamp(6, producto.getFechaActualizar());
 
 			estadoOperacion = statement.executeUpdate() > 0;
 
@@ -59,7 +59,7 @@ public class ProductoDAO {
 			statement.setString(1, producto.getNombre());
 			statement.setDouble(2, producto.getCantidad());
 			statement.setDouble(3, producto.getPrecio());
-			statement.setDate(4, producto.getFechaActualizar());
+			statement.setTimestamp(4, producto.getFechaActualizar());
 			statement.setInt(5, producto.getId());
 
 			estadoOperacion = statement.executeUpdate() > 0;
@@ -118,8 +118,8 @@ public class ProductoDAO {
 				p.setNombre(resultSet.getString(2));
 				p.setCantidad(resultSet.getDouble(3));
 				p.setPrecio(resultSet.getDouble(4));
-				p.setFechaCrear(resultSet.getDate(5));
-				p.setFechaActualizar(resultSet.getDate(6));
+				p.setFechaCrear(resultSet.getTimestamp(5));
+				p.setFechaActualizar(resultSet.getTimestamp(6));
 				listaProductos.add(p);
 			}
 
@@ -151,8 +151,8 @@ public class ProductoDAO {
 				p.setNombre(resultSet.getString(2));
 				p.setCantidad(resultSet.getDouble(3));
 				p.setPrecio(resultSet.getDouble(4));
-				p.setFechaCrear(resultSet.getDate(5));
-				p.setFechaActualizar(resultSet.getDate(6));
+				p.setFechaCrear(resultSet.getTimestamp(5));
+				p.setFechaActualizar(resultSet.getTimestamp(6));
 			}
 
 		} catch (SQLException e) {
