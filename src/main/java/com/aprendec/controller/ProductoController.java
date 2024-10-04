@@ -116,8 +116,13 @@ public class ProductoController extends HttpServlet {
 			producto.setPrecio(Double.parseDouble(request.getParameter("precio")));
 			producto.setFechaCrear(new java.sql.Timestamp(fechaActual.getTime()));
 			try {
+				boolean exito = productoDAO.guardar(producto);
+				if (exito) {
+					request.setAttribute("mensaje", "Producto guardado con exito");
+				} else {
+					request.setAttribute("error", "Ocurrio un error al guardar el producto");
+				}
 				productoDAO.guardar(producto);
-				System.out.println("Registro guardado satisfactoriamente...");
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
 				requestDispatcher.forward(request, response);
 
@@ -135,8 +140,13 @@ public class ProductoController extends HttpServlet {
 			producto.setPrecio(Double.parseDouble(request.getParameter("precio")));
 			producto.setFechaActualizar(new java.sql.Timestamp(fechaActual.getTime()));
 			try {
+				boolean exito = productoDAO.editar(producto);
+				if (exito) {
+					request.setAttribute("mensaje", "Producto editado con exito");
+				} else {
+					request.setAttribute("error", "Ocurrio un error al editar el producto");
+				}
 				productoDAO.editar(producto);
-				System.out.println("Registro editado satisfactoriamente...");
 				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
 				requestDispatcher.forward(request, response);
 			} catch (SQLException e) {

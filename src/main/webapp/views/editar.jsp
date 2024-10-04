@@ -10,6 +10,14 @@
 </head>
 <body>
 	<h1>Editar Producto</h1>
+
+	<c:if test="${not empty mensaje}">
+		<div style="color: green; font-weight: bold;">${mensaje}</div>
+	</c:if>
+	<c:if test="${not empty error}">
+		<div style="color: red; font-weight: bold;">${error}</div>
+	</c:if>
+
 	<form action="productos" method="post">
 		<c:set var="producto" value="${producto}"></c:set>
 		<input type="hidden" name="opcion" value="editar"> <input

@@ -9,6 +9,35 @@
 <title>Listar Productos</title>
 </head>
 <body>
+
+	<h1>Crear Producto</h1>
+
+	<c:if test="${not empty mensaje}">
+		<div style="color: green; font-weight: bold;">${mensaje}</div>
+	</c:if>
+	<c:if test="${not empty error}">
+		<div style="color: red; font-weight: bold;">${error}</div>
+	</c:if>
+
+	<form action="productos" method="post">
+		<input type="hidden" name="opcion" value="guardar">
+		<table border="1">
+			<tr>
+				<td>Nombre:</td>
+				<td><input type="text" name="nombre" size="50"></td>
+			</tr>
+			<tr>
+				<td>Cantidad:</td>
+				<td><input type="text" name="cantidad" size="50"></td>
+			</tr>
+			<tr>
+				<td>Precio:</td>
+				<td><input type="text" name="precio" size="50"></td>
+			</tr>
+		</table>
+		<input type="submit" value="Guardar">
+	</form>
+
 	<h1>Listar Productos</h1>
 	<table border="1">
 		<tr>
