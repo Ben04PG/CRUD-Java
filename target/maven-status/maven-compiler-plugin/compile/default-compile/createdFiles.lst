@@ -1,0 +1,4 @@
+com\aprendec\conexion\Conexion.class
+com\aprendec\dao\ProductoDAO.class
+com\aprendec\model\Producto.class
+com\aprendec\controller\ProductoController.class
