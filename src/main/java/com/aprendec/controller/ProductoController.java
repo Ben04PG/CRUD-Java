@@ -18,13 +18,18 @@ import com.aprendec.model.Producto;
 
 /**
  * Servlet implementation class ProductoController
+ * Servlet que maneja las operaciones CRUD para los productos.
+ * Se encarga de procesar las solicitudes del cliente y delegar las acciones
+ * a la clase ProductoDAO para interactuar con la base de datos.
  */
-@WebServlet(description = "administra peticiones para la tabla productos", urlPatterns = { "/productos" })
+@WebServlet(description = "Administra peticiones para la tabla productos", urlPatterns = { "/productos" })
 public class ProductoController extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 
 	/**
 	 * @see HttpServlet#HttpServlet()
+	 * Constructor por defecto de ProductoController.
+     * Llama al constructor de la superclase HttpServlet.
 	 */
 	public ProductoController() {
 		super();
@@ -34,7 +39,16 @@ public class ProductoController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doGet(HttpServletRequest request, HttpServletResponse
 	 *      response)
-	 */
+	 *
+     * Maneja las solicitudes GET del cliente.
+     * Dependiendo del parámetro "opcion", se redirige la solicitud a la vista que corresponde
+     * o realiza las operaciones del listado, edición o eliminación de productos.
+     * 
+     * @param request  La solicitud HTTP recibida.
+     * @param response La respuesta HTTP que se enviará al cliente.
+     * @throws ServletException Si ocurre un error en la ejecución del servlet.
+     * @throws IOException      Si ocurre un error de entrada/salida.
+     */
 	protected void doGet(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -46,7 +60,6 @@ public class ProductoController extends HttpServlet {
 			RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/crear.jsp");
 			requestDispatcher.forward(request, response);
 		} else if (opcion.equals("listar")) {
-
 			ProductoDAO productoDAO = new ProductoDAO();
 			List<Producto> lista = new ArrayList<>();
 			try {
@@ -101,7 +114,15 @@ public class ProductoController extends HttpServlet {
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse
 	 *      response)
-	 */
+	 *
+     * Maneja las solicitudes POST del cliente.
+     * Procesa la creación o edición de un producto, utilizando los datos enviados en la solicitud.
+     * 
+     * @param request  La solicitud HTTP recibida.
+     * @param response La respuesta HTTP que se enviará al cliente.
+     * @throws ServletException Si ocurre un error en la ejecución del servlet.
+     * @throws IOException      Si ocurre un error de entrada/salida.
+     */
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
 		// TODO Auto-generated method stub
@@ -116,19 +137,20 @@ public class ProductoController extends HttpServlet {
 			producto.setPrecio(Double.parseDouble(request.getParameter("precio")));
 			producto.setFechaCrear(new java.sql.Timestamp(fechaActual.getTime()));
 			try {
-				boolean exito = productoDAO.guardar(producto);
-				if (exito) {
-					request.setAttribute("mensaje", "Producto guardado con exito");
-				} else {
-					request.setAttribute("error", "Ocurrio un error al guardar el producto");
-				}
-				productoDAO.guardar(producto);
-				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
-				requestDispatcher.forward(request, response);
+		        if (productoDAO.guardar(producto)) {
+		            request.setAttribute("mensajeExito", "El producto ha sido guardado satisfactoriamente.");
+		        } else {
+		            request.setAttribute("mensajeError", "Ha ocurrido un error al guardar el producto, o el producto ya existe");
+		        }
+		        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/crear.jsp");
+		        requestDispatcher.forward(request, response);
 
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+				request.getSession().setAttribute("mensajeError", "Error en la base de datos: " + e.getMessage());;
+	            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/crear.jsp");
+	            requestDispatcher.forward(request, response);
 			}
 		} else if (opcion.equals("editar")) {
 			Producto producto = new Producto();
@@ -140,18 +162,20 @@ public class ProductoController extends HttpServlet {
 			producto.setPrecio(Double.parseDouble(request.getParameter("precio")));
 			producto.setFechaActualizar(new java.sql.Timestamp(fechaActual.getTime()));
 			try {
-				boolean exito = productoDAO.editar(producto);
-				if (exito) {
-					request.setAttribute("mensaje", "Producto editado con exito");
-				} else {
-					request.setAttribute("error", "Ocurrio un error al editar el producto");
-				}
-				productoDAO.editar(producto);
-				RequestDispatcher requestDispatcher = request.getRequestDispatcher("/index.jsp");
-				requestDispatcher.forward(request, response);
+		        if (productoDAO.editar(producto)) {
+		            request.setAttribute("mensajeExito", "El producto ha sido editado satisfactoriamente.");
+		        } else {
+		            request.setAttribute("mensajeError", "Ha ocurrido un error al editar el producto.");
+		        }
+		        RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/editar.jsp");
+		        requestDispatcher.forward(request, response);
+				
 			} catch (SQLException e) {
 				// TODO Auto-generated catch block
 				e.printStackTrace();
+	            request.getSession().setAttribute("mensajeError", "Error en la base de datos: " + e.getMessage());
+	            RequestDispatcher requestDispatcher = request.getRequestDispatcher("/views/editar.jsp");
+	            requestDispatcher.forward(request, response);
 			}
 		}
 

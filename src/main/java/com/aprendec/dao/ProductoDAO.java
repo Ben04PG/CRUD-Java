@@ -10,19 +10,45 @@ import java.util.List;
 import com.aprendec.conexion.Conexion;
 import com.aprendec.model.Producto;
 
+
+/**
+ * Clase DAO para gestionar las operaciones de acceso a datos relacionadas con la entidad Producto. 
+ * Proporciona métodos para crear, editar, eliminar y recuperar productos de la base de datos.
+ */
 public class ProductoDAO {
 	private Connection connection;
 	private PreparedStatement statement;
 	private boolean estadoOperacion;
 
-// guardar producto
+	/**
+     * Guarda un nuevo producto en la base de datos.
+     * Primero verifica si el producto ya existe. Si no existe, lo inserta.
+     * 
+     * @param producto El producto a guardar.
+     * @return true si el producto se guardó correctamente, false si el producto ya existe.
+     * @throws SQLException Si ocurre un error en la base de datos.
+     */
 	public boolean guardar(Producto producto) throws SQLException {
 		String sql = null;
 		estadoOperacion = false;
 		connection = obtenerConexion();
 
 		try {
-			connection.setAutoCommit(false);
+			 connection.setAutoCommit(false);
+
+		        // Se verifica si ya existe el producto
+		        sql = "SELECT COUNT(*) FROM productos WHERE nombre = ?";
+		        statement = connection.prepareStatement(sql);
+		        statement.setString(1, producto.getNombre());
+		        ResultSet resultSet = statement.executeQuery();
+		        resultSet.next();
+		        int count = resultSet.getInt(1);
+
+		        if (count > 0) {
+		            // El producto ya existe
+		            return false;
+		        }
+		        
 			sql = "INSERT INTO productos (id, nombre, cantidad, precio, fecha_crear,fecha_actualizar) VALUES(?,?,?,?,?,?)";
 			statement = connection.prepareStatement(sql);
 
@@ -46,7 +72,13 @@ public class ProductoDAO {
 		return estadoOperacion;
 	}
 
-// editar producto
+	/**
+     * Edita un producto existente en la base de datos.
+     * 
+     * @param producto El producto con los nuevos valores.
+     * @return true si el producto se editó correctamente, false en caso contrario.
+     * @throws SQLException Si ocurre un error en la base de datos.
+     */
 	public boolean editar(Producto producto) throws SQLException {
 		String sql = null;
 		estadoOperacion = false;
@@ -75,7 +107,13 @@ public class ProductoDAO {
 		return estadoOperacion;
 	}
 
-// eliminar producto
+    /**
+     * Elimina un producto de la base de datos según su ID.
+     * 
+     * @param idProducto El ID del producto a eliminar.
+     * @return true si el producto se eliminó correctamente, false en caso contrario.
+     * @throws SQLException Si ocurre un error en la base de datos.
+     */
 	public boolean eliminar(int idProducto) throws SQLException {
 		String sql = null;
 		estadoOperacion = false;
@@ -99,7 +137,12 @@ public class ProductoDAO {
 		return estadoOperacion;
 	}
 
-// obtener lista de productos
+    /**
+     * Obtiene una lista de todos los productos de la base de datos.
+     * 
+     * @return Una lista de objetos Producto.
+     * @throws SQLException Si ocurre un error en la base de datos.
+     */
 	public List<Producto> obtenerProductos() throws SQLException {
 		ResultSet resultSet = null;
 		List<Producto> listaProductos = new ArrayList<>();
@@ -130,7 +173,14 @@ public class ProductoDAO {
 		return listaProductos;
 	}
 
-// obtener producto
+
+    /**
+     * Obtiene un producto específico de la base de datos según su ID.
+     * 
+     * @param idProducto El ID del producto a recuperar.
+     * @return Un objeto Producto que representa el producto recuperado.
+     * @throws SQLException Si ocurre un error en la base de datos.
+     */
 	public Producto obtenerProducto(int idProducto) throws SQLException {
 		ResultSet resultSet = null;
 		Producto p = new Producto();
@@ -162,7 +212,13 @@ public class ProductoDAO {
 		return p;
 	}
 
-// obtener conexion pool
+
+    /**
+     * Obtiene una conexión a la base de datos desde el pool de conexiones.
+     * 
+     * @return Una conexión a la base de datos.
+     * @throws SQLException Si ocurre un error al obtener la conexión.
+     */
 	private Connection obtenerConexion() throws SQLException {
 		return Conexion.getConnection();
 	}

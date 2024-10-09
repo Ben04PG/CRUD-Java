@@ -6,16 +6,23 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
 <title>Crear Producto</title>
+<link rel="stylesheet" type="text/css" href="./styles/style.css">
 </head>
 <body>
+
 	<h1>Crear Producto</h1>
 
-	<c:if test="${not empty mensaje}">
-		<div style="color: green; font-weight: bold;">${mensaje}</div>
+	<c:if test="${not empty mensajeExito}">
+		<div class="alerta-exito">
+			${mensajeExito}
+		</div>
 	</c:if>
-	<c:if test="${not empty error}">
-		<div style="color: red; font-weight: bold;">${error}</div>
+	<c:if test="${not empty mensajeError}">
+		<div class="alerta-error">
+			${mensajeError}
+		</div>
 	</c:if>
+
 
 	<form action="productos" method="post">
 		<input type="hidden" name="opcion" value="guardar">
@@ -35,5 +42,11 @@
 		</table>
 		<input type="submit" value="Guardar">
 	</form>
+	
+	<table border="1">
+		<tr>
+			<td><a href="productos?opcion=listar"> Listar Productos</a></td>
+		</tr>
+	</table>
 </body>
 </html>
